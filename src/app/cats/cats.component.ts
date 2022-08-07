@@ -31,12 +31,10 @@ export class CatsComponent implements OnInit {
     this.catsService.getBreeds(this.order)
         .subscribe(response => {
           this.breeds = response;
-          console.log(this.breeds);
     });
   }
 
   searchImages(): void {
-    console.log(this.selectedLimit);
     this.catsService.searchImages(this.selectedLimit)
         .subscribe(response => {
           this.images = response;
@@ -45,7 +43,6 @@ export class CatsComponent implements OnInit {
   }
 
   searchByBreed(breedId: string): void{
-    console.log(this.selectedLimit);
     this.catsService.searchByBreed(breedId, this.selectedLimit)
         .subscribe(response => {
           this.images = response;
@@ -55,11 +52,9 @@ export class CatsComponent implements OnInit {
 
   imageLoadingChange(image: CatImage) {
     image.loading  = false;
-    console.log("i'm loaded")
   }
 
   changeLimit(limit: string) {
     this.selectedLimit = limit
-    console.log(this.selectedLimit);
   }
 }
