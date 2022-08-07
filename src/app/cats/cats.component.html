@@ -1,0 +1,48 @@
+    <mat-form-field appearance="outline" style="margin: 1rem 2rem;">
+        <mat-label>Cat breed</mat-label>
+        <mat-select [formControl]="breedControl" required>
+            <mat-option (click)="searchImages(); 
+                        chooseAll = true" 
+                        [value]="chooseAll">All</mat-option>
+            <mat-option *ngFor="let breed of breeds" 
+                        [value]="breed"
+                        (click)="searchByBreed(breed.id); 
+                        selectedBreed = breed; 
+                        chooseAll = false; 
+                        changeLimit(selectedLimit)">
+            {{breed.name}}
+            </mat-option>
+        </mat-select>
+        <mat-error *ngIf="chooseAll && breedControl.hasError('required')">Please choose an animal</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Show {{selectedLimit}} cats</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let limit of limits" 
+                      (click)="changeLimit(limit); 
+                               chooseAll ?
+                               searchImages() :
+                               searchByBreed(selectedBreed.id)">
+            Show {{limit}}
+          </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+
+    <div id="images-list">
+        <div *ngFor="let image of images" class="card-container">
+        <mat-card class="card" *ngIf="!!images.length">
+            <mat-card-header>
+                <mat-card-title>{{  chooseAll ? 'Cutie cat' :  selectedBreed.name}}</mat-card-title>
+                <mat-card-subtitle>{{chooseAll ? '' : 'Cat Breed'}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-spinner *ngIf="image.loading" style="margin: 5rem auto"></mat-spinner>
+            <img mat-card-image  class="main-image" 
+                                    src="{{image.url}}" 
+                                    alt="Cat photo"
+                                    [hidden]="image.loading"
+                                    (load)="imageLoadingChange(image)">
+        </mat-card>
+        </div>
+    </div>
